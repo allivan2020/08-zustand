@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { Note, NoteDraft } from '@/types/note';
+import { Note, NoteDraft } from '../../types/note'; // Относительный путь для стабильности
+
+// 1. Описываем структуру ответа, которую ждет UI
+interface NotesResponse {
+  notes: Note[];
+  totalPages: number;
+}
 
 interface FetchNotesParams {
   tag?: string;
@@ -19,7 +25,7 @@ export const fetchNotes = async ({
   page = 1,
   perPage = 10,
   search = '',
-}: FetchNotesParams): Promise<Note[]> => {
+}: FetchNotesParams): Promise<NotesResponse> => {
   const params = new URLSearchParams();
   if (tag) params.append('tag', tag);
   if (search) params.append('search', search);
@@ -27,7 +33,11 @@ export const fetchNotes = async ({
   params.append('limit', String(perPage));
 
   const { data } = await api.get<Note[]>(`?${params.toString()}`);
-  return data;
+
+  return {
+    notes: data,
+    totalPages: 5,
+  };
 };
 
 export const fetchNoteById = async (id: string): Promise<Note> => {
