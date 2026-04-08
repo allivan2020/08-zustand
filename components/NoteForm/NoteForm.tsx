@@ -1,12 +1,14 @@
-"use client";
+'use client';
 
-import React from "react";
-import { useRouter } from "next/navigation";
-import { useNoteStore } from "@/lib/store/noteStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNote } from "../../lib/api/notes";
-import { Note, NoteDraft } from "@/types/note";
-import css from "./NoteForm.module.css";
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { useNoteStore } from '../../lib/store/noteStore';
+import { createNote } from '../../lib/api/notes';
+import { Note, NoteDraft } from '../../types/note';
+
+import css from './NoteForm.module.css';
 
 export default function NoteForm() {
   const router = useRouter();
@@ -16,9 +18,9 @@ export default function NoteForm() {
   const mutation = useMutation<Note, Error, NoteDraft>({
     mutationFn: (newNote) => createNote(newNote),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["notes"] });
+      queryClient.invalidateQueries({ queryKey: ['notes'] });
       clearDraft();
-      router.push("/notes");
+      router.push('/notes');
     },
   });
 
@@ -83,7 +85,7 @@ export default function NoteForm() {
           className={css.submitBtn}
           disabled={mutation.isPending}
         >
-          {mutation.isPending ? "Saving..." : "Save"}
+          {mutation.isPending ? 'Saving...' : 'Save'}
         </button>
       </div>
     </form>
