@@ -1,14 +1,19 @@
-import dynamic from 'next/dynamic';
-import React from 'react';
+// import dynamic from 'next/dynamic';
+// import React from 'react';
 import css from './CreateNote.module.css';
 
-const NoteForm = dynamic(
-  () => import('../../../../components/NoteForm/NoteForm'),
-  {
-    ssr: false,
-    loading: () => <p>Loading form...</p>,
-  },
-);
+// const NoteForm = dynamic(
+//   () =>
+//     import('../../../../components/NoteForm/NoteForm').then(
+//       (mod) => mod.default,
+//     ),
+//   {
+//     ssr: false,
+//     loading: () => <p>Loading form...</p>,
+//   },
+// );
+
+import NoteForm from '../../../../components/NoteForm/NoteForm';
 
 export default function CreateNotePage() {
   return (
