@@ -1,32 +1,89 @@
-'use client';
+"use client";
 
-import React from 'react';
-import css from './NoteForm.module.css';
+import React from "react";
+import { useRouter } from "next/navigation";
+import { useNoteStore } from "@/lib/store/noteStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createNote } from "../../lib/api/notes";
+import { Note, NoteDraft } from "@/types/note";
+import css from "./NoteForm.module.css";
 
-// Вот эта часть говорит Тайпскрипту, что проп onClose существует!
-interface NoteFormProps {
-  onClose: () => void;
-}
+export default function NoteForm() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const { draft, setDraft, clearDraft } = useNoteStore();
 
-export default function NoteForm({ onClose }: NoteFormProps) {
+  const mutation = useMutation<Note, Error, NoteDraft>({
+    mutationFn: (newNote) => createNote(newNote),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+      clearDraft();
+      router.push("/notes");
+    },
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setDraft({ [name]: value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutation.mutate(draft);
+  };
+
   return (
-    <form
-      className={css.form}
-      onSubmit={(e) => {
-        e.preventDefault();
-        onClose();
-      }}
-    >
+    <form className={css.form} onSubmit={handleSubmit}>
       <h3 className={css.title}>Add New Note</h3>
-      <input type="text" placeholder="Title" className={css.input} />
-      <textarea placeholder="Content" className={css.textarea} />
+
+      <input
+        type="text"
+        name="title"
+        value={draft.title}
+        onChange={handleChange}
+        placeholder="Title"
+        className={css.input}
+        required
+      />
+
+      <textarea
+        name="content"
+        value={draft.content}
+        onChange={handleChange}
+        placeholder="Content"
+        className={css.textarea}
+        required
+      />
+
+      <select
+        name="tag"
+        value={draft.tag}
+        onChange={handleChange}
+        className={css.select}
+      >
+        <option value="Todo">Todo</option>
+        <option value="Work">Work</option>
+        <option value="Personal">Personal</option>
+      </select>
 
       <div className={css.actions}>
-        <button type="button" onClick={onClose} className={css.cancelBtn}>
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className={css.cancelBtn}
+        >
           Cancel
         </button>
-        <button type="submit" className={css.submitBtn}>
-          Save
+        <button
+          type="submit"
+          className={css.submitBtn}
+          disabled={mutation.isPending}
+        >
+          {mutation.isPending ? "Saving..." : "Save"}
         </button>
       </div>
     </form>

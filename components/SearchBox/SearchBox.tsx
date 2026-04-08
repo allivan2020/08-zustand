@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React from 'react';
-import css from './SearchBox.module.css';
+import React from "react";
+import css from "./SearchBox.module.css";
 
 interface SearchBoxProps {
   value: string;

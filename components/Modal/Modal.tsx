@@ -1,7 +1,7 @@
-'use client';
-import { type ReactNode, useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import css from './Modal.module.css';
+"use client";
+import { type ReactNode, useEffect } from "react";
+import { createPortal } from "react-dom";
+import css from "./Modal.module.css";
 
 interface ModalProps {
   children: ReactNode;
@@ -11,19 +11,19 @@ interface ModalProps {
 export default function Modal({ children, onClose }: ModalProps) {
   useEffect(() => {
     // Блокируем скролл
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.code === 'Escape') {
+      if (event.code === "Escape") {
         onClose();
       }
     };
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       // Возвращаем скролл при закрытии
-      document.body.style.overflow = '';
-      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [onClose]);
 

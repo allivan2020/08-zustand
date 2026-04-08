@@ -1,4 +1,4 @@
-export type NoteTag = 'Todo' | 'Work' | 'Personal' | 'Meeting' | 'Shopping';
+export type NoteTag = "Todo" | "Work" | "Personal" | "Meeting" | "Shopping";
 
 export interface Note {
   id: string;
@@ -9,7 +9,7 @@ export interface Note {
   tag: NoteTag;
 }
 
-export interface CreateNoteParams {
+export interface NoteDraft {
   title: string;
   content: string;
   tag: NoteTag;

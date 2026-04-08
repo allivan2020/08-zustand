@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useQuery } from '@tanstack/react-query';
-import { fetchNoteById } from '@/lib/api';
-import Modal from '@/components/Modal/Modal';
-import { useRouter } from 'next/navigation';
+import { useQuery } from "@tanstack/react-query";
+import { fetchNoteById } from "@/lib/api";
+import Modal from "@/components/Modal/Modal";
+import { useRouter } from "next/navigation";
 
 // ОСЬ ТУТ МАЄ БУТИ ТІЛЬКИ "id"
 interface NotePreviewClientProps {
@@ -18,7 +18,7 @@ export default function NotePreviewClient({ id }: NotePreviewClientProps) {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['note', id],
+    queryKey: ["note", id],
     queryFn: () => fetchNoteById(id),
     refetchOnMount: false,
   });
@@ -38,10 +38,10 @@ export default function NotePreviewClient({ id }: NotePreviewClientProps) {
 
   return (
     <Modal onClose={() => router.back()}>
-      <div style={{ padding: '40px', position: 'relative' }}>
+      <div style={{ padding: "40px", position: "relative" }}>
         <button
           onClick={() => router.back()}
-          style={{ position: 'absolute', top: '20px', right: '20px' }}
+          style={{ position: "absolute", top: "20px", right: "20px" }}
         >
           Закрити
         </button>
@@ -52,13 +52,13 @@ export default function NotePreviewClient({ id }: NotePreviewClientProps) {
         </p>
 
         {/* createdAt для викладача */}
-        <p style={{ fontSize: '0.8rem', color: 'gray' }}>
-          Створено:{' '}
-          {note.createdAt ? new Date(note.createdAt).toLocaleString() : '—'}
+        <p style={{ fontSize: "0.8rem", color: "gray" }}>
+          Створено:{" "}
+          {note.createdAt ? new Date(note.createdAt).toLocaleString() : "—"}
         </p>
 
         <hr />
-        <div style={{ whiteSpace: 'pre-wrap' }}>{note.content}</div>
+        <div style={{ whiteSpace: "pre-wrap" }}>{note.content}</div>
       </div>
     </Modal>
   );

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React from 'react';
-import css from './Pagination.module.css';
+import React from "react";
+import css from "./Pagination.module.css";
 
 interface PaginationProps {
   current: number;

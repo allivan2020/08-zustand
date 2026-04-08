@@ -1,7 +1,7 @@
-'use client';
-import { useQuery } from '@tanstack/react-query';
-import { fetchNoteById } from '@/lib/api';
-import { useRouter } from 'next/navigation';
+"use client";
+import { useQuery } from "@tanstack/react-query";
+import { fetchNoteById } from "@/lib/api";
+import { useRouter } from "next/navigation";
 
 export default function NoteDetailsClient({ id }: { id: string }) {
   const router = useRouter();
@@ -10,26 +10,26 @@ export default function NoteDetailsClient({ id }: { id: string }) {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['note', id],
+    queryKey: ["note", id],
     queryFn: () => fetchNoteById(id),
     refetchOnMount: false,
   });
 
-  if (isLoading) return <div style={{ padding: '40px' }}>Завантаження...</div>;
+  if (isLoading) return <div style={{ padding: "40px" }}>Завантаження...</div>;
   if (isError || !note)
-    return <div style={{ padding: '40px' }}>Помилка завантаження.</div>;
+    return <div style={{ padding: "40px" }}>Помилка завантаження.</div>;
 
   return (
-    <div style={{ padding: '40px' }}>
+    <div style={{ padding: "40px" }}>
       <button onClick={() => router.back()}>Назад</button>
       <h2>{note.title}</h2>
       <p>#{note.tag}</p>
-      <p style={{ color: 'gray' }}>
-        Створено:{' '}
-        {note.createdAt ? new Date(note.createdAt).toLocaleString() : '—'}
+      <p style={{ color: "gray" }}>
+        Створено:{" "}
+        {note.createdAt ? new Date(note.createdAt).toLocaleString() : "—"}
       </p>
       <hr />
-      <div style={{ whiteSpace: 'pre-wrap' }}>{note.content}</div>
+      <div style={{ whiteSpace: "pre-wrap" }}>{note.content}</div>
     </div>
   );
 }

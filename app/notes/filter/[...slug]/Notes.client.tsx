@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { fetchNotes } from '@/lib/api';
-import NoteList from '@/components/NoteList/NoteList';
-import SearchBox from '@/components/SearchBox/SearchBox';
-import Pagination from '@/components/Pagination/Pagination';
-import Modal from '@/components/Modal/Modal';
-import NoteForm from '@/components/NoteForm/NoteForm';
+import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchNotes } from "@/lib/api";
+import NoteList from "@/components/NoteList/NoteList";
+import SearchBox from "@/components/SearchBox/SearchBox";
+import Pagination from "@/components/Pagination/Pagination";
+import Modal from "@/components/Modal/Modal";
+import NoteForm from "@/components/NoteForm/NoteForm";
 
 export default function NotesClient({ tag }: { tag: string }) {
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Логика дебаунса: ждем 500мс после последнего ввода, прежде чем обновлять поиск
@@ -26,7 +26,7 @@ export default function NotesClient({ tag }: { tag: string }) {
 
   const { data } = useQuery({
     // Ключ ОБЯЗАТЕЛЬНО должен включать все параметры, чтобы Query перезапускался
-    queryKey: ['notes', tag, page, debouncedSearch],
+    queryKey: ["notes", tag, page, debouncedSearch],
     queryFn: () =>
       fetchNotes({ tag, page, perPage: 10, search: debouncedSearch }),
   });
@@ -35,9 +35,9 @@ export default function NotesClient({ tag }: { tag: string }) {
     <div>
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
         }}
       >
         <SearchBox value={search} onChange={setSearch} />

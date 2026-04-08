@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 export default function Error({
   error,
@@ -14,11 +14,11 @@ export default function Error({
   }, [error]);
 
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
-      <h2 style={{ color: 'red' }}>Щось пішло не так при фільтрації!</h2>
+    <div style={{ padding: "20px", textAlign: "center" }}>
+      <h2 style={{ color: "red" }}>Щось пішло не так при фільтрації!</h2>
       <button
         onClick={() => reset()}
-        style={{ padding: '8px 16px', marginTop: '10px', cursor: 'pointer' }}
+        style={{ padding: "8px 16px", marginTop: "10px", cursor: "pointer" }}
       >
         Спробувати знову
       </button>
