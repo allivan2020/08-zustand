@@ -4,11 +4,12 @@ import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { fetchNotes } from '../../../../lib/api/notes';
+
 import NoteList from '@/components/NoteList/NoteList';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import Pagination from '@/components/Pagination/Pagination';
 
-// Явна типізація пропсів через інтерфейс
+// Явна типізація пропсів через інтерфейс (Вимога ментора)
 interface NotesClientProps {
   tag: string;
 }
@@ -26,12 +27,13 @@ export default function NotesClient({ tag }: NotesClientProps) {
     return () => clearTimeout(handler);
   }, [search]);
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['notes', tag, page, debouncedSearch],
     queryFn: () =>
       fetchNotes({ tag, page, perPage: 10, search: debouncedSearch }),
   });
 
+  // Умова для рендерингу (Зауваження №6)
   const hasNotes = data?.notes && data.notes.length > 0;
 
   return (
@@ -40,27 +42,33 @@ export default function NotesClient({ tag }: NotesClientProps) {
         style={{
           display: 'flex',
           justifyContent: 'space-between',
+          alignItems: 'center',
           marginBottom: '20px',
         }}
       >
         <SearchBox value={search} onChange={setSearch} />
         <Link
           href="/notes/action/create"
-          style={
-            {
-              /* твої стилі */
-            }
-          }
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#0070f3',
+            color: 'white',
+            borderRadius: '5px',
+            textDecoration: 'none',
+            fontWeight: 'bold',
+          }}
         >
           Add Note +
         </Link>
       </div>
 
-      {/* Рендеримо NoteList лише якщо є нотатки */}
-      {hasNotes ? (
+      {/* Рендеримо NoteList лише за наявності нотаток (Зауваження №6) */}
+      {isLoading ? (
+        <p>Loading notes...</p>
+      ) : hasNotes ? (
         <NoteList notes={data.notes} />
       ) : (
-        <p>No notes found for this category.</p>
+        <p>No notes found in this category.</p>
       )}
 
       <Pagination

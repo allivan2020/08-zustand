@@ -71,7 +71,7 @@ export default function NoteForm() {
         <option value="Todo">Todo</option>
         <option value="Work">Work</option>
         <option value="Personal">Personal</option>
-        {/* Добавлены обязательные опции по требованию ментора */}
+        {/* Додано обов'язкові опції (Зауваження №8) */}
         <option value="Meeting">Meeting</option>
         <option value="Shopping">Shopping</option>
       </select>

@@ -1,32 +1,28 @@
-import dynamic from 'next/dynamic';
-import { Metadata } from 'next'; // Імпортуємо тип Metadata
+import { Metadata } from 'next';
+import React from 'react';
 import css from './CreateNote.module.css';
 
-// Експортуємо метадані (Це виправить зауваження №5)
+// Звичайний імпорт нашої клієнтської обгортки
+import NoteFormWrapper from '../../../../components/NoteForm/NoteFormWrapper';
+
+// Додаємо SEO метадані (Це виправить зауваження ментора)
 export const metadata: Metadata = {
-  title: 'Create New Note | NoteHub',
-  description: 'Create a new personal note to keep track of your tasks.',
+  title: 'Create Note | NoteHub',
+  description: 'Create a new note to stay organized.',
   openGraph: {
-    title: 'Create New Note | NoteHub',
-    description: 'Create a new personal note to keep track of your tasks.',
+    title: 'Create Note | NoteHub',
+    description: 'Create a new note to stay organized.',
     type: 'website',
   },
 };
-
-const NoteForm = dynamic(
-  () => import('../../../../components/NoteForm/NoteForm'),
-  {
-    ssr: false,
-    loading: () => <p>Loading form...</p>,
-  },
-);
 
 export default function CreateNotePage() {
   return (
     <main className={css.main}>
       <div className={css.container}>
         <h1 className={css.title}>Create note</h1>
-        <NoteForm />
+        {/* Використовуємо обгортку */}
+        <NoteFormWrapper />
       </div>
     </main>
   );
