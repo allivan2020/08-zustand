@@ -1,19 +1,25 @@
-// import dynamic from 'next/dynamic';
-// import React from 'react';
+import dynamic from 'next/dynamic';
+import { Metadata } from 'next'; // Імпортуємо тип Metadata
 import css from './CreateNote.module.css';
 
-// const NoteForm = dynamic(
-//   () =>
-//     import('../../../../components/NoteForm/NoteForm').then(
-//       (mod) => mod.default,
-//     ),
-//   {
-//     ssr: false,
-//     loading: () => <p>Loading form...</p>,
-//   },
-// );
+// Експортуємо метадані (Це виправить зауваження №5)
+export const metadata: Metadata = {
+  title: 'Create New Note | NoteHub',
+  description: 'Create a new personal note to keep track of your tasks.',
+  openGraph: {
+    title: 'Create New Note | NoteHub',
+    description: 'Create a new personal note to keep track of your tasks.',
+    type: 'website',
+  },
+};
 
-import NoteForm from '../../../../components/NoteForm/NoteForm';
+const NoteForm = dynamic(
+  () => import('../../../../components/NoteForm/NoteForm'),
+  {
+    ssr: false,
+    loading: () => <p>Loading form...</p>,
+  },
+);
 
 export default function CreateNotePage() {
   return (

@@ -66,10 +66,14 @@ export default function NoteForm() {
         value={draft.tag}
         onChange={handleChange}
         className={css.select}
+        required
       >
         <option value="Todo">Todo</option>
         <option value="Work">Work</option>
         <option value="Personal">Personal</option>
+        {/* Добавлены обязательные опции по требованию ментора */}
+        <option value="Meeting">Meeting</option>
+        <option value="Shopping">Shopping</option>
       </select>
 
       <div className={css.actions}>

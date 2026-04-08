@@ -2,23 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import Link from 'next/link'; // Добавляем Link
-
-// Используем относительный путь для API (как мы делали в форме)
+import Link from 'next/link';
 import { fetchNotes } from '../../../../lib/api/notes';
-
 import NoteList from '@/components/NoteList/NoteList';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import Pagination from '@/components/Pagination/Pagination';
 
-// УДАЛИЛИ ИМПОРТЫ Modal и NoteForm — они здесь больше не нужны!
+// Явна типізація пропсів через інтерфейс
+interface NotesClientProps {
+  tag: string;
+}
 
-export default function NotesClient({ tag }: { tag: string }) {
+export default function NotesClient({ tag }: NotesClientProps) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
-
-  // УДАЛИЛИ стейт isModalOpen
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -34,35 +32,36 @@ export default function NotesClient({ tag }: { tag: string }) {
       fetchNotes({ tag, page, perPage: 10, search: debouncedSearch }),
   });
 
+  const hasNotes = data?.notes && data.notes.length > 0;
+
   return (
     <div>
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center',
           marginBottom: '20px',
         }}
       >
         <SearchBox value={search} onChange={setSearch} />
-
-        {/* ЗАМЕНЯЕМ КНОПКУ НА ССЫЛКУ ПО ТЗ */}
         <Link
           href="/notes/action/create"
-          style={{
-            padding: '10px 20px',
-            backgroundColor: '#0070f3',
-            color: 'white',
-            borderRadius: '5px',
-            textDecoration: 'none',
-            fontWeight: 'bold',
-          }}
+          style={
+            {
+              /* твої стилі */
+            }
+          }
         >
           Add Note +
         </Link>
       </div>
 
-      <NoteList notes={data?.notes || []} />
+      {/* Рендеримо NoteList лише якщо є нотатки */}
+      {hasNotes ? (
+        <NoteList notes={data.notes} />
+      ) : (
+        <p>No notes found for this category.</p>
+      )}
 
       <Pagination
         current={page}
